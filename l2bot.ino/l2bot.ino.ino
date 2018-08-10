@@ -1,71 +1,86 @@
-int lefts= 4;
-int rights=3;
-int fronts=2;
-int a1a=5;
-int a1b=6;
-int a2a=7;
-int a2b=8;
-int l;
-int r;
-int f;
-
-
-void setup() {
- pinMode(lefts,INPUT);
- pinMode(rights,INPUT);
- pinMode(fronts,INPUT);
- pinMode(a1a,OUTPUT);
- pinMode(a1b,OUTPUT);
- pinMode(a2a,OUTPUT);
- pinMode(a2b,OUTPUT);
-
-digitalWrite(lefts,HIGH);
-digitalWrite(rights,HIGH);
-digitalWrite(fronts,HIGH);
-Serial.begin(9600); 
-
+int S1 = 2;    // left sensor
+int S2 = 3;     // right sensor
+int S3 = 4;
+int S4 = 5;
+int S5 = 6;
+int LM1 = 9;      // left motor
+int LM2 = 10;      // left motor
+int RM1 = 11;      // right motor
+int RM2 = 12;      // right motor
+int A;
+int B;
+int C;
+int D;
+int E;
+const int w = 0;     // low
+const int b = 1 ;    // high
+void setup()
+{
+  pinMode(S1, INPUT);
+  pinMode(S2, INPUT);
+  pinMode(S3, INPUT);
+  pinMode(S4, INPUT);
+  pinMode(S5, INPUT);
+  pinMode(LM1, OUTPUT);
+  pinMode(LM2, OUTPUT);
+  pinMode(RM1, OUTPUT);
+  pinMode(RM2, OUTPUT);
 }
 
-void loop() {
-  l=digitalRead(lefts);
-  r=digitalRead(rights);
-  f=digitalRead(fronts);
- 
 
-  if (l==1 && f==0 && r==1)  //forward
-  {
-    digitalWrite(a1a,HIGH);
-    digitalWrite(a1b,LOW);
-    digitalWrite(a2a,HIGH);
-    digitalWrite(a2b,LOW);
-  }
-  else if(l==0 && f==1 && r==1) //left
-  {
-   digitalWrite(rights,LOW); //while taking left turn if right sensors come across any line it will be off 
-   do
-  { 
-    digitalWrite(a1a,LOW);
-    digitalWrite(a1b,HIGH);
-    digitalWrite(a2a,HIGH);
-    digitalWrite(a2b,LOW);
-  }while (l==1 && f==0 && r==1);
-  }
-   else if(l==1 && f==1 && r==0) //right
-   {
-    digitalWrite(lefts,LOW); 
-    do
-    {
-    digitalWrite(a1a,HIGH);
-    digitalWrite(a1b,LOW);
-    digitalWrite(a2a,LOW);
-    digitalWrite(a2b,HIGH);
-    }while(l==1 && f==0 && r==1);
-   }
-   else      //stop
-    {
-     digitalWrite(a1a,LOW);
-     digitalWrite(a1b,LOW);
-     digitalWrite(a2a,LOW);
-     digitalWrite(a2b,LOW);
-    }
+
+
+void loop()
+{
+ A = digitalRead(S1);
+ B = digitalRead(S2);
+ C = digitalRead(S3);
+ D = digitalRead(S4);
+ E = digitalRead(S5);
+
+
+
+
+ if(A == b && B== b && C== w && D== b && E == b)
+ {
+  straight(); 
  }
+ if(A==w && B==w && C==w && D==b && E==b)
+ {
+  left(); 
+ }
+ if(A==b && B==b && C==b && D==w && E==w)
+ {
+  right();
+ }
+ 
+}
+
+void straight()
+{
+ analogWrite(LM1,200;
+ analogWrite(LM2,55);
+ analogWrite(RM1,200);
+ analogWrite(RM2,55);
+}
+
+void left()
+{ 
+  do
+  {
+ analogWrite(LM1,55);
+ analogWrite(LM2,150);
+ analogWrite(RM1,150);
+ analogWrite(RM2,55);
+}while (A != b && B != b && C != w && D != b && E != b);
+}
+void right()
+{
+   do
+  {
+ analogWrite(LM1,200);
+ analogWrite(LM2,55);
+ analogWrite(RM1,55);
+ analogWrite(RM2,200);
+}while (A != b && B != b && C != w && D != b && E != b);
+}
